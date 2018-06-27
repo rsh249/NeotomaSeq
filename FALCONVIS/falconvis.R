@@ -12,7 +12,7 @@ for (i in 1:nrow(top)){
   split = strsplit(as.character(top[i,4]), "_")
   grsplit = grep("[.]", split[[1]]);
   for(n in grsplit){
-    accmatrix[r,1:7]= unlist(c((split[[1]][n]), top[i,]))
+    accmatrix[r,1:7]= unlist(c((split[[1]][n]), top[i,])); #Warning fasta header returned here as factor ID rather than character string
     r = r+1;
   }
 }
