@@ -7,25 +7,29 @@ top = read.delim("top.csv", sep="\t", header=FALSE)
 #parse accession numbers, ref length, and percent similarity to separate table
 
 r = 1;
-accID= vector();
+accmatrix= matrix(ncol=ncol(top)+1, nrow=nrow(top)*5);
 for (i in 1:nrow(top)){
-#for (i in 1:1000){
- # print(top[i,1:3])
   split = strsplit(as.character(top[i,4]), "_")
-  accID[[r]]= (split[[1]][1])
-  r = r+1;
-  
-
+  grsplit = grep("[.]", split[[1]]);
+  for(n in grsplit){
+    accmatrix[r,1:7]= unlist(c((split[[1]][n]), top[i,]))
+    r = r+1;
+  }
 }
+accmatrix=na.omit(accmatrix)
 
-taxaId<-accessionToTaxa(accID,"accessionTaxa.sql")
-taxaNodes<-read.nodes('nodes.dmp') #takes time?
+
+taxaId<-accessionToTaxa(accmatrix[,1],"accessionTaxa.sql")
+taxaNodes<-read.nodes('nodes.dmp') 
 taxaNames<-read.names('names.dmp')
 
 taxtable= getTaxonomy(taxaId,taxaNodes,taxaNames)
 
-taxtable = cbind(taxtable, top)
+taxtable = cbind(taxtable, accmatrix)
+taxtable = data.frame(taxtable, row.names=NULL)
 
+dir.create('./FALCONfigs')
+setwd('FALCONfigs')
 
 phyla = stats::na.omit(plyr::count(taxtable$phylum))
 png(filename = "FALCONphyla.png", height = 7, width = 11, units = "in", res = 600)
