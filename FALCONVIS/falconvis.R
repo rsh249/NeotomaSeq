@@ -31,13 +31,6 @@ taxtable = data.frame(taxtable, row.names=NULL)
 dir.create('./FALCONfigs')
 setwd('FALCONfigs')
 
-phyla = stats::na.omit(plyr::count(taxtable$phylum))
-png(filename = "FALCONphyla.png", height = 7, width = 11, units = "in", res = 600)
-phyla <- phyla[order(-phyla$freq),]
-phyla$x <- factor(phyla$x, levels = phyla$x[order(-phyla$freq)])
-ggplot(data = phyla[1:50,], aes_string(x = colnames(phyla)[1], y = "freq")) + geom_col() + labs(x = "Phylum") + theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))
-dev.off()
-
 
 family = stats::na.omit(plyr::count(taxtable$family))
 png(filename = "FALCONfamily.png", height = 7, width = 11, units = "in", res = 600)
