@@ -3,6 +3,7 @@
 #Import from biopython library (included in anaconda)
 from Bio import SeqIO
 import sys
+from multiprocessing import Pool
     
 def filter(records, readIDs):
     """
@@ -64,6 +65,8 @@ def main():
     #parse the fastq file and run the filter above to write a file of lines of interest './PPC-Pr.analysis/PPCPr3kA.smallfast'
     with open( str(sys.argv[3]) ) as fqfile:
         parser = SeqIO.parse(fqfile, "fastq")
-        SeqIO.write(filter(parser, readIDs), 'PPCPr_filtered_fastq', "fastq")
+        pool = Pool(processes=4)
+        IDs = partial(filter, readIDs)
+        SeqIO.write(pool.map(IDs, parser), 'Filtered_fastq', "fastq")
 
 main()
