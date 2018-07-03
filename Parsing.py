@@ -4,6 +4,7 @@
 from Bio import SeqIO
 import sys
 from multiprocessing import Pool
+from functools import partial
     
 def filter(records, readIDs):
     """
