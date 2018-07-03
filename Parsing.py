@@ -4,7 +4,7 @@
 from Bio import SeqIO
 import sys
 from multiprocessing import Pool
-from functools import partial
+from itertools import product
     
 def filter(records, readIDs):
     """
@@ -67,7 +67,6 @@ def main():
     with open( str(sys.argv[3]) ) as fqfile:
         parser = SeqIO.parse(fqfile, "fastq")
         pool = Pool(processes=4)
-        IDs = partial(filter, readIDs)
-        SeqIO.write(pool.map(IDs, parser), 'Filtered_fastq', "fastq")
+        SeqIO.write(pool.starmap(filter, product(parser, readIDs)), 'Filtered_fastq', "fastq")
 
 main()
