@@ -46,11 +46,11 @@ colnames(taxtable) = c('superkingdom',
                        'dbStart', 
                        'dbEnd')
 
-targpath = strsplit(targ, "/")
-targbase = strsplit(targpath[[1]][length(targpath[[1]])], "[.]")
-targbase = targbase[[1]][length(targbase[[1]])-1];
-dir.create(targbase)
-setwd(targbase)
+# targpath = strsplit(targ, "/")
+# targbase = strsplit(targpath[[1]][length(targpath[[1]])], "[.]")
+# targbase = targbase[[1]][length(targbase[[1]])-1];
+# dir.create(targbase)
+# setwd(targbase)
 
 
 family = stats::na.omit(plyr::count(taxtable$family))
