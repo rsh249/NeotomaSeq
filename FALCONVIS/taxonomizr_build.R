@@ -1,6 +1,8 @@
 ##Build taxonomizr database
 library(taxonomizr)
-libdir='taxonomizr'
+args=commandArgs(trailingOnly=TRUE)
+targ=args[[1]];
+libdir=targ
 dir.create(libdir)
 setwd(libdir)
 getNamesAndNodes()
