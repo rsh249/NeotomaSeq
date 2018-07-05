@@ -160,8 +160,10 @@ summary.families$Group.1 <- factor(summary.families$Group.1, levels = summary.fa
 ggplot(data = summary.families[1:50,], aes_string(x = colnames(summary.families)[1], y = 'numUniqueReads')) + geom_col() + scale_y_continuous(trans='log10') + labs(x = "Families") + theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))
 dev.off()
 
-write.table(summary.genera, file =  paste(basename(args[[1]]), "Genus", sep = "."), quote = FALSE, sep = "\t", row.names = FALSE)
-write.table(summary.orders, file = paste(basename(args[[1]]), "Order", sep = "."), quote = FALSE, sep = "\t", row.names = FALSE)
-write.table(summary.kingdoms, file = paste(basename(args[[1]]), "Superkingdom", sep = "."), quote = FALSE, sep = "\t", row.names = FALSE)
-write.table(summary.phylums, file = paste(basename(args[[1]]), "Phylum", sep = "."), quote = FALSE, sep = "\t", row.names = FALSE)
-write.table(summary.families, file = paste(basename(args[[1]]), "Family", sep = "."), quote = FALSE, sep = "\t", row.names = FALSE)
+name <- strsplit(basename(args[[1]]), '[.]')
+
+write.table(summary.genera, file =  paste(name[[1]][1], "Genus", sep = "."), quote = FALSE, sep = "\t", row.names = FALSE)
+write.table(summary.orders, file = paste(name[[1]][1], "Order", sep = "."), quote = FALSE, sep = "\t", row.names = FALSE)
+write.table(summary.kingdoms, file = paste(name[[1]][1], "Superkingdom", sep = "."), quote = FALSE, sep = "\t", row.names = FALSE)
+write.table(summary.phylums, file = paste(name[[1]][1], "Phylum", sep = "."), quote = FALSE, sep = "\t", row.names = FALSE)
+write.table(summary.families, file = paste(name[[1]][1], "Family", sep = "."), quote = FALSE, sep = "\t", row.names = FALSE)
