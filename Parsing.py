@@ -3,8 +3,9 @@
 #Import from biopython library (included in anaconda)
 from Bio import SeqIO
 import sys
-from multiprocessing import Pool
-from itertools import product
+#from multiprocessing import Pool
+#from itertools import product
+import os
     
 def filter(records, readIDs):
     """
@@ -47,7 +48,10 @@ def main():
     with open (str(sys.argv[2]), 'rt') as readfile:  
         for line in readfile:
             linesReadID.append(line)
-    readIDs = []
+    fileP = str(sys.argv[2]).split("/")
+    name = fileP[-1].split(".")
+    ccIDFile = name[0] + ".ReadIDs"
+    ccIDs = open(ccIDFile, "w")
     #Pull out read IDs that align with the taxonomic ID
     for line in linesReadID[1: ]:
         try:
@@ -59,14 +63,29 @@ def main():
         readID = readID[:0] + readID[2:]
         for ID in rodentID:
             if taxRead == ID:
-                readIDs.append(readID)
+                ccIDs.write(readID)
+                ccIDs.write('\n')
             else:
                 continue
-    print(readIDs)
-    #parse the fastq file and run the filter above to write a file of lines of interest './PPC-Pr.analysis/PPCPr3kA.smallfast'
-    with open( str(sys.argv[3]) ) as fqfile:
-        parser = SeqIO.parse(fqfile, "fastq")
-        pool = Pool(processes=4)
-        SeqIO.write(pool.starmap(filter, product(parser, readIDs)), 'Filtered_fastq', "fastq")
+    ccIDs.close()
+    sort = 'sort ' + ccIDFile + " | uniq > " + ccIDFile + "2"
+    os.system(sort)
+    
+    os.system("LC_ALL=C")
+    outfile = name[0] + ".filtered"
+    fqfile = sys.argv[3]
+    grep = 'grep -A3 -f ' + ccIDFile + '2' + ' ' + fqfile + " | sed -e 's/^--$//g' | sed '/^$/d'" + ' > ' + outfile
+    os.system(grep) 
+
+
+
+
+    
+    #print(readIDs)
+##    #parse the fastq file and run the filter above to write a file of lines of interest './PPC-Pr.analysis/PPCPr3kA.smallfast'
+##    with open( str(sys.argv[3]) ) as fqfile:
+##        parser = SeqIO.parse(fqfile, "fastq")
+##        pool = Pool(processes=4)
+##        SeqIO.write(pool.starmap(filter, product(parser, readIDs)), 'Filtered_fastq', "fastq")
 
 main()
