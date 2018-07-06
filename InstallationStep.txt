@@ -1,0 +1,11 @@
+https://conda.io/miniconda.html #Install anaconda
+#Install Bioconda
+conda config --add channels defaults
+conda config --add channels conda-forge
+conda config --add channels bioconda
+conda install -c maxibor adapterremoval2 #Install AdapterRemoval2
+conda install -c conda-forge biopython #Install Biopython
+conda install centrifuge #Install Centrifuge
+conda install -c maxibor falcon #Install FALCON
+
+ 
