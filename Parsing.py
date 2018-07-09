@@ -34,8 +34,8 @@ def main():
     rodentID = []
     #Pull out taxonomic IDs of interest based on classification level
     for line in linesTaxID[1: ]:
-        order = line.split("\t")[2]
-        taxID = int(line.split("\t")[6])
+        order = line.split("\t")[3]
+        taxID = int(line.split("\t")[8])
         if order == substr:
             if taxID not in rodentID:
                 rodentID.append(taxID)
