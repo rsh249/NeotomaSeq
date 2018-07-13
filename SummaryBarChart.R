@@ -30,11 +30,14 @@ for(i in 1:length(taxa)){
   df$Extraction <- NA
   df <- df %>%
     mutate(Extraction = match_name)
+  #Remove processed samples
+  full_table <- full_table[!grepl("*Pr", full_table$Name),]
   selected_rows <- full_table[grep(match_name, full_table$Name), ]
   df$Age <- NA
   df <- df %>%
     mutate(Age = selected_rows$Midden.age[1])
-  
+  #Remove "NA" rows
+  df <- df[!is.na(df$Age), ]
   dfinal <- rbind(dfinal, df)
 }
 
@@ -47,5 +50,6 @@ dfinal <- dfinal %>%
 png(filename =  "SummaryBarPlot.png", height = 7, width = 11, units = "in", res = 600)
 #Order the table
 dfinal = dfinal[order(-dfinal$Age),]
-ggplot(data = dfinal, aes(x = Extraction, y = numUniqueReads, fill = Group.1)) + geom_bar(stat = "identity") + scale_y_continuous(trans='log10')
+ggplot(data = dfinal, aes(x = Age, y = numUniqueReads, fill = Group.1)) + geom_bar(stat = "identity") + scale_y_continuous(trans='log10')
 dev.off()
+#By year no processed
