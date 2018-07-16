@@ -6,13 +6,11 @@ library(dplyr)
 library(data.table)
 library(reshape2)
 
-#taxa <- lapply(Sys.glob(args[[1]]), read.delim(args[[1]], sep = "\t"))
 names <- Sys.glob(args[[1]])
 print(names)
 taxa <- lapply(names, read.delim, sep = "\t")
 
 full_table = read.delim(args[2], sep = ",",  na.strings = "null")
-#args[[2]]
 dfinal <- data.frame(Group.1 = character(),
                  numReads=integer(), 
                  numUniqueReads=integer(),
@@ -46,10 +44,12 @@ dfinal <- dfinal %>%
   group_by(Extraction,Group.1) %>%
   mutate_if(is.numeric, mean)
 
+print(dfinal)
+
 #Graph the resulting table as a stacked bar graph colored by kingdom on a logarithmic scale
 png(filename =  "SummaryBarPlot.png", height = 7, width = 11, units = "in", res = 600)
 #Order the table
 dfinal = dfinal[order(-dfinal$Age),]
-ggplot(data = dfinal, aes(x = Age, y = numUniqueReads, fill = Group.1)) + geom_bar(stat = "identity") + scale_y_continuous(trans='log10')
+#dfinal$Group.1 <- factor(dfinal$Group.1, levels = unique(dfinal$Group.1[order(-as.numeric(as.character(dfinal$Age)))]))
+ggplot(data = dfinal, aes(x = as.numeric(as.character(Age)), y = numUniqueReads, fill = Group.1)) + labs(x = "Age (Years)", y = "Number of Unique Reads (log scale)") + geom_bar(stat = "identity") + scale_y_continuous(trans='log10')
 dev.off()
-#By year no processed
