@@ -7,5 +7,3 @@ conda install -c maxibor adapterremoval2 #Install AdapterRemoval2
 conda install -c conda-forge biopython #Install Biopython
 conda install centrifuge #Install Centrifuge
 conda install -c maxibor falcon #Install FALCON
-
- 
