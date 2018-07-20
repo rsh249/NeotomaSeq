@@ -7,7 +7,7 @@ Looking at Earth's geological and ecological history can help us understand the 
 ***
 
 ### Software Used:
-Ancient DNA from the packrat middens were extracted and then sequenced at the New York City Genome Center. The FASTQ reads produced were first run through AdapterRemoval (V2) to remove the adapter sequences added by the sequencing center and filter the reads. The FASTQ files were run through both Centrifuge and FALCON, software created to identify the possible taxonomic classifications of each sequence with databases created from the NCBI Nucleotide database.
+Ancient DNA from the packrat middens was extracted and then sequenced at the New York City Genome Center. The FASTQ reads produced were first run through AdapterRemoval (V2) to remove the adapter sequences added by the sequencing center and filter the reads. The FASTQ files were run through both Centrifuge and FALCON, software created to identify the possible taxonomic classifications of each sequence with databases created from the NCBI Nucleotide database.
 
 Software Name | Software Link
 ------------ | -------------
