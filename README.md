@@ -2,7 +2,7 @@
 Packrat ancient DNA metagenomics pipeline and tools
 
 ### Purpose of the Project:
-Looking at Earth's geological and ecological history can help us understand the impact of environmental changes on the Earth’s ecosystems and the biodiversity it supports. Watching population changes over time can be achieved by studying fossils, plant cuticle, and more recently ancient DNA (aDNA) analysis. However DNA degrades over time and fossils can be hard to identify and therefore can be obstacles to scientific inquiry. Packrat middens and coprolites (fossilized feces) of small rodents can be used as an informant paleoecology.
+Looking at Earth's geological and ecological history can help us understand the impact of environmental changes on the Earth’s ecosystems and the biodiversity it supports. Watching population changes over time can be achieved by studying fossils, plant cuticles, and more recently ancient DNA (aDNA) analysis. However DNA degrades over time and fossils can be hard to identify and therefore can be obstacles to scientific inquiry. Packrat middens and coprolites (fossilized feces) of small rodents can be used as an informant of paleoecology.
 
 ***
 
