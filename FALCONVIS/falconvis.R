@@ -51,6 +51,7 @@ targbase = strsplit(targpath[[1]][length(targpath[[1]])], "[.]")
  targbase = targbase[[1]][length(targbase[[1]])-1];
 # dir.create(targbase)
 # setwd(targbase)
+phylum = stats::na.omit(plyr::count(taxtable$phylum))
 
 kingdom = stats::na.omit(plyr::count(taxtable$superkingdom))
 png(filename = "FALCONkingdom.png", height = 7, width = 11, units = "in", res = 600)
