@@ -1,0 +1,35 @@
+#!/bin/bash
+#PBS -V
+#PBS -N packrats_classif
+#PBS -l nodes=1:ppn=50
+#PBS -l walltime=1000:00:00
+#PBS -m abe
+#PBS -M rharbert@amnh.org
+#PBS -J 1-4
+echo running on `hostname`
+echo Node file is  $PBS_NODEFILE
+echo The assigned nodes are:
+cat $PBS_NODEFILE
+
+echo --------------------------------------
+set echo
+
+
+module load R-3.4.1
+module load bowtie2-2.3.2
+module load bwa-0.7.15
+module load samtools-1.5
+
+
+home=/home/rharbert/nas5/NeotomaSeq
+cd $home
+
+targs=$(ls fastq | awk -F "_" '{print $1}' | uniq)
+
+centdb=$home/refs/centr/nucind2
+reffa=$home/refs/nt.fa
+
+IFS=' ' read -r -a array <<< $targs
+
+
+./bin/NeotomaSeq.sh $centdb $reffa ${array[$PBS_ARRAY_INDEX-1]}

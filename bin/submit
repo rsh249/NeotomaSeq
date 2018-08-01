@@ -1,0 +1,39 @@
+#!/bin/bash
+#PBS -V
+#PBS -N packrats_classif
+#PBS -l nodes=1:ppn=64
+#PBS -l walltime=1000:00:00
+#PBS -m abe
+#PBS -M rharbert@amnh.org
+
+home=~/nas5/NeotomaSeq
+cd $home
+targ="PPCUn3kA"
+module load R-3.4.1
+module load bowtie2-2.3.2
+module load bwa-0.7.15
+module load samtools-1.5 
+
+centdb='~/nas3/meta/centrifuge/nucind2'
+reffa=$home/refs/nt.fa
+#bowdb=~/nas3/meta/bt2/nt
+#centdb='~/nas3/meta/centrifuge/allplants'
+
+cd results
+mkdir $targ
+
+
+AdapterRemoval --collapse  --file1 ./fastq/$targ*.R1.fastq --file2 ./fastq/$targ*.R2.fastq --basename $targ/$targ --threads 4
+fqtrim --dmask -p24 $targ/$targ.collapsed > $targ/$targ.dusted
+
+centrifuge -p 24 -q -x $centdb -U $targ/$targ.collapsed -S $targ/$targ.centclass --report-file $targ/$targ.report.tab --out-fmt tab --ignore-quals -t --non-deterministic --min-hitlen 45 -k 200
+
+cd $targ
+Rscript --vanilla $home/bin/TableScript.R $targ.report.tab $home/taxdmp
+
+
+FALCON -v -n 32 -t 1000000 -F -Z -m 6:1:0:0/0 -m 12:20:0:0/0 -m 14:50:1:1/1 -m 20:200:1:5/10 -c 100 $targ.collapsed $reffa -x $targ.top
+#Run FALCONvis.R
+Rscript --vanilla $home/bin/falconvis.R $targ.top $home/taxdmp
+
+
