@@ -1,0 +1,36 @@
+# NeotomaSeq
+Packrat ancient DNA metagenomics pipeline and tools
+
+### Purpose of the Project:
+Looking at Earth's geological and ecological history can help us understand the impact of environmental changes on the Earth’s ecosystems and the biodiversity it supports. Watching population changes over time can be achieved by studying fossils, plant cuticles, and more recently ancient DNA (aDNA) analysis. However DNA degrades over time and fossils can be hard to identify and therefore can be obstacles to scientific inquiry. Packrat middens and coprolites (fossilized feces) of small rodents can be used as an informant of paleoecology.
+
+***
+
+### Software Used:
+Ancient DNA from the packrat middens was extracted and then sequenced at the New York City Genome Center. The FASTQ reads produced were first run through AdapterRemoval (V2) to remove the adapter sequences added by the sequencing center and filter the reads. The FASTQ files were run through both Centrifuge and FALCON, software created to identify the possible taxonomic classifications of each sequence with databases created from the NCBI Nucleotide database.
+
+Software Name | Software Link
+------------ | -------------
+Anaconda | https://conda.io/miniconda.html
+Bioconda | https://bioconda.github.io/index.html#set-up-channels 
+AdapterRemoval2 | https://github.com/MikkelSchubert/adapterremoval
+Centrifuge | https://bioconda.github.io/recipes/centrifuge/README.html
+FALCON | https://github.com/pratas/falcon
+
+
+***
+
+### Important Literature Citations:
+Betancourt, J. L., Van Devender, T. R., and Martin, P. S. (1990) Packrat Middens: The Last 40,000 Years of Biotic Changes. Tucson, AZ: The University of Arizona Press.
+
+Hollingsworth, P.M., Li, D., van der Bank, M., Twyford, A.D. 2016. Telling plant species apart with DNA: From barcode to genomes. Philosophical Transactions of the Royal Society B 371: 20150338.
+
+Harbert, R. S. 2018. Algorithms and strategies in short-read shotgun metagenomic reconstruction of plant communities. Applications in Plant Sciences 6(3): e1034.
+
+Kuch, M., Rohland, N., Betancourt, J.L., Latorre, C., Steppan, S., Poinar, H.N. 2002. Molecular analysis of a 11,700-year-old rodent midden from the Atacama Desert, Chile. Molecular Ecology 11: 913–924.
+
+Kim, D., L. Song, F. P. Breitwieser, and S. L. Salzberg. 2016. Centrifuge: Rapid and sensitive classification of metagenomic sequences. Genome Research 26:1721–1729.
+
+Pratas, D., Pinho, A. J., Silva, R. M., Rodrigues, J. M. O. S., Hosseini, M., Caetano, T., Ferreira, P. J. S. G. 2018. FALCON-meta: a method to infer metagenomic composition of ancient DNA. Cold Spring HArbor Laboratory. 10.1101/267179
+
+
