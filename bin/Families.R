@@ -190,8 +190,8 @@ for(i in 1:nrow(avg)) {
 }
 
 avg <- unique( avg[ , 1:ncol(avg) ] )
-avg = avg[order(-avg$count),]
-avg = avg[order(avg$Extraction),]
+avg = avg[order(avg$Extraction, -avg$count),]
+#avg = avg[order(avg$Extraction),]
 
 newavg <- do.call("rbind", list(avg[1:5,], avg[612:616,], avg[1202:1206,], avg[1852:1856,], avg[2512:2516,], avg[3132:3136,]))
 
@@ -203,12 +203,26 @@ countC = length(unique(newavg$family))
 #png(filename =  "FamBarPlot.png", height = 7, width = 11, units = "in", res = 400)
 
 #dfinal$Group.1 <- factor(dfinal$Group.1, levels = unique(dfinal$Group.1[order(-as.numeric(as.character(dfinal$Age)))]))
-famplot = ggplot(data = newavg, aes(x = Age, y = count, fill = family)) + 
-  labs(x = "Age (Years)", y = "Percentage of Unique Streptophyta Reads") + 
-  scale_x_discrete(labels=c("345 (COR)","2835 (COR)", "3105 (COR)", "3260 (COR)","28460 (COR)", "31760 (COR)")) +
-  geom_bar(stat = "identity") + 
-  scale_fill_manual(values = colorRampPalette(brewer.pal(12, "Set3"))(countC), name = "Family") + 
-  theme(axis.text=element_text(size=8), axis.title=element_text(size=10), legend.text=element_text(size=8))
+famplot = ggplot(data = newavg, 
+                 aes(x = as.numeric(as.character(Age)), y = count, fill = family)) +
+  labs(x = "Age (Years)", y = "Percentage of Unique Streptophyta Reads") +
+  scale_x_discrete(
+    labels = c(
+      "345 (COR)",
+      "2835 (COR)",
+      "3105 (COR)",
+      "3260 (COR)",
+      "28460 (COR)",
+      "31760 (COR)"
+    )
+  ) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = colorRampPalette(brewer.pal(12, "Set3"))(countC), name = "Family") +
+  theme(
+    axis.text = element_text(size = 8),
+    axis.title = element_text(size = 10),
+    legend.text = element_text(size = 8)
+  )
 famplot
 #dev.off()
 
