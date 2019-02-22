@@ -6,7 +6,7 @@ library(reshape2)
 library(RColorBrewer)
 
 #Grab the TaxaResults file for each of the samples and look at the eukaryotic reads only
-taxa <- read.delim("~/Desktop/packrats/PPCUn3kA_TAX/Taxa.ResultsAfter", sep = "\t")
+taxa <- read.delim("./Files2Run/PPC529A.ResultsAfter", sep = "\t")
 eutaxa <- taxa[grepl("Eukaryota", taxa$superkingdom),]
 
 #Count the number of reads for each phylum
@@ -32,7 +32,7 @@ eutaxa <- eutaxa %>%
   mutate(Age = as.numeric(3260))
 
 #Repeat for all of the files and bind all them together
-taxa2 <- read.delim("~/Desktop/packrats/PPCUn3kB_TAX/Taxa.ResultsAfter", sep = "\t")
+taxa2 <- read.delim("./Files2Run/PPC529B.ResultsAfter", sep = "\t")
 eutaxa2 <- taxa2[grepl("Eukaryota", taxa2$superkingdom),]
 
 eutaxa2 <- aggregate(cbind(count = numUniqueReads) ~ phylum, 
@@ -56,7 +56,7 @@ eutaxa2 <- eutaxa2 %>%
 eutaxa <- rbind(eutaxa, eutaxa2)
 
 
-taxa3 <- read.delim("~/Desktop/packrats/TSUn28kA_TAX/Taxa.ResultsAfter", sep = "\t")
+taxa3 <- read.delim("./Files2Run/TS211F.ResultsAfter", sep = "\t")
 eutaxa3 <- taxa3[grepl("Eukaryota", taxa3$superkingdom),]
 
 eutaxa3 <- aggregate(cbind(count = as.numeric(numUniqueReads)) ~ phylum, 
@@ -80,7 +80,7 @@ eutaxa3 <- eutaxa3 %>%
 eutaxa <- rbind(eutaxa, eutaxa3)
 
 
-taxa4 <- read.delim("~/Desktop/packrats/FRT504", sep = "\t")
+taxa4 <- read.delim("./Files2Run/FRT504", sep = "\t")
 eutaxa4 <- taxa4[grepl("Eukaryota", taxa4$superkingdom),]
 
 eutaxa4 <- aggregate(cbind(count = as.numeric(numUniqueReads)) ~ phylum, 
@@ -104,7 +104,7 @@ eutaxa4 <- eutaxa4 %>%
 eutaxa <- rbind(eutaxa, eutaxa4)
 
 
-taxa5 <- read.delim("~/Desktop/packrats/FRT511A", sep = "\t")
+taxa5 <- read.delim("./Files2Run/FRT511A", sep = "\t")
 eutaxa5 <- taxa5[grepl("Eukaryota", taxa5$superkingdom),]
 
 eutaxa5 <- aggregate(cbind(count = as.numeric(numUniqueReads)) ~ phylum, 
@@ -128,7 +128,7 @@ eutaxa5 <- eutaxa5 %>%
 eutaxa <- rbind(eutaxa, eutaxa5)
 
 
-taxa6 <- read.delim("~/Desktop/packrats/PPC524", sep = "\t")
+taxa6 <- read.delim("./Files2Run/PPC524", sep = "\t")
 eutaxa6 <- taxa6[grepl("Eukaryota", taxa6$superkingdom),]
 
 eutaxa6 <- aggregate(cbind(count = as.numeric(numUniqueReads)) ~ phylum, 
@@ -152,7 +152,7 @@ eutaxa6 <- eutaxa6 %>%
 eutaxa <- rbind(eutaxa, eutaxa6)
 
 
-taxa7 <- read.delim("~/Desktop/packrats/TS211A", sep = "\t")
+taxa7 <- read.delim("./Files2Run/TS211A", sep = "\t")
 eutaxa7 <- taxa7[grepl("Eukaryota", taxa7$superkingdom),]
 
 eutaxa7 <- aggregate(cbind(count = as.numeric(numUniqueReads)) ~ phylum, 
@@ -196,7 +196,7 @@ newavg <- do.call("rbind", list(avg[1:5,], avg[44:48,], avg[81:85,], avg[126:130
 newavg$Age = factor(c(newavg$Age),levels=c("345","2835","3105","3260", "28460", "31760"))
 
 #Graph the resulting table as a stacked bar graph colored by kingdom on a logarithmic scale
-png(filename =  "PhylaBarPlot.png", height = 7, width = 11, units = "in", res = 400)
+#png(filename =  "PhylaBarPlot.png", height = 7, width = 11, units = "in", res = 400)
 
 #dfinal$Group.1 <- factor(dfinal$Group.1, levels = unique(dfinal$Group.1[order(-as.numeric(as.character(dfinal$Age)))]))
 phylaplot = ggplot(data = newavg, aes(x = Age, y = count, fill = phylum)) + 
@@ -207,5 +207,5 @@ phylaplot = ggplot(data = newavg, aes(x = Age, y = count, fill = phylum)) +
   scale_fill_brewer(direction = -1, palette="Set3", name = "Phylum") + 
   theme(axis.text=element_text(size=8), axis.title=element_text(size=10), legend.text=element_text(size=8))
 phylaplot
-dev.off()
+#dev.off()
 

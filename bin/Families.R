@@ -6,7 +6,7 @@ library(reshape2)
 library(RColorBrewer)
 
 #Grab the TaxaResults file for each of the samples and look at the eukaryotic streptophyla reads only
-taxa <- read.delim("~/Desktop/packrats/PPC529A", sep = "\t")
+taxa <- read.delim("./Files2Run/PPC529A.ResultsAfter", sep = "\t")
 #eutaxa <- taxa[grepl("Eukaryota", taxa$superkingdom),]
 eutaxa <- taxa[grepl("Streptophyta", taxa$phylum),]
 
@@ -25,7 +25,7 @@ eutaxa <- eutaxa %>%
 #Label each extraction based on the file name
 eutaxa$Extraction <- NA
 eutaxa <- eutaxa %>%
-  mutate(Extraction = "PPC529-Un")
+  mutate(Extraction = "PPC529-UnA")
 
 #Assign the midden age
 eutaxa$Age <- NA
@@ -33,7 +33,7 @@ eutaxa <- eutaxa %>%
   mutate(Age = as.numeric(3260))
 
 #Repeat for all of the files and bind all them together
-taxa2 <- read.delim("~/Desktop/packrats/PPC529B", sep = "\t")
+taxa2 <- read.delim("./Files2Run/PPC529B.ResultsAfter", sep = "\t")
 eutaxa2 <- taxa2[grepl("Eukaryota", taxa2$superkingdom),]
 eutaxa2 <- taxa2[grepl("Streptophyta", taxa2$phylum),]
 eutaxa2 <- aggregate(cbind(count = numUniqueReads) ~ family, 
@@ -48,7 +48,7 @@ eutaxa2 <- eutaxa2 %>%
 
 eutaxa2$Extraction <- NA
 eutaxa2 <- eutaxa2 %>%
-  mutate(Extraction = "PPC529-Un")
+  mutate(Extraction = "PPC529-UnB")
 
 eutaxa2$Age <- NA
 eutaxa2 <- eutaxa2 %>%
@@ -58,7 +58,7 @@ eutaxa <- rbind(eutaxa, eutaxa2)
 
 
 
-taxa3 <- read.delim("~/Desktop/packrats/TS211F", sep = "\t")
+taxa3 <- read.delim("./Files2Run/TS211F.ResultsAfter", sep = "\t")
 eutaxa3 <- taxa3[grepl("Eukaryota", taxa3$superkingdom),]
 eutaxa3 <- taxa3[grepl("Streptophyta", taxa3$phylum),]
 eutaxa3 <- aggregate(cbind(count = as.numeric(numUniqueReads)) ~ family, 
@@ -73,7 +73,7 @@ eutaxa3 <- eutaxa3 %>%
 
 eutaxa3$Extraction <- NA
 eutaxa3 <- eutaxa3 %>%
-  mutate(Extraction = "TS211F-Un")
+  mutate(Extraction = "TS211F-UnA")
 
 eutaxa3$Age <- NA
 eutaxa3 <- eutaxa3 %>%
@@ -82,7 +82,7 @@ eutaxa3 <- eutaxa3 %>%
 eutaxa <- rbind(eutaxa, eutaxa3)
 
 
-taxa4 <- read.delim("~/Desktop/packrats/FRT504", sep = "\t")
+taxa4 <- read.delim("./Files2Run/FRT504", sep = "\t")
 eutaxa4 <- taxa4[grepl("Eukaryota", taxa4$superkingdom),]
 eutaxa4 <- taxa4[grepl("Streptophyta", taxa4$phylum),]
 eutaxa4 <- aggregate(cbind(count = as.numeric(numUniqueReads)) ~ family, 
@@ -106,7 +106,7 @@ eutaxa4 <- eutaxa4 %>%
 eutaxa <- rbind(eutaxa, eutaxa4)
 
 
-taxa5 <- read.delim("~/Desktop/packrats/FRT511A", sep = "\t")
+taxa5 <- read.delim("./Files2Run/FRT511A", sep = "\t")
 eutaxa5 <- taxa5[grepl("Eukaryota", taxa5$superkingdom),]
 eutaxa5 <- taxa5[grepl("Streptophyta", taxa5$phylum),]
 eutaxa5 <- aggregate(cbind(count = as.numeric(numUniqueReads)) ~ family, 
@@ -130,7 +130,7 @@ eutaxa5 <- eutaxa5 %>%
 eutaxa <- rbind(eutaxa, eutaxa5)
 
 
-taxa6 <- read.delim("~/Desktop/packrats/PPC524", sep = "\t")
+taxa6 <- read.delim("./Files2Run/PPC524", sep = "\t")
 eutaxa6 <- taxa6[grepl("Eukaryota", taxa6$superkingdom),]
 eutaxa6 <- taxa6[grepl("Streptophyta", taxa6$phylum),]
 eutaxa6 <- aggregate(cbind(count = as.numeric(numUniqueReads)) ~ family, 
@@ -154,7 +154,7 @@ eutaxa6 <- eutaxa6 %>%
 eutaxa <- rbind(eutaxa, eutaxa6)
 
 
-taxa7 <- read.delim("~/Desktop/packrats/TS211A", sep = "\t")
+taxa7 <- read.delim("./Files2Run/TS211A", sep = "\t")
 eutaxa7 <- taxa7[grepl("Eukaryota", taxa7$superkingdom),]
 eutaxa7 <- taxa7[grepl("Streptophyta", taxa7$phylum),]
 eutaxa7 <- aggregate(cbind(count = as.numeric(numUniqueReads)) ~ family, 
@@ -200,7 +200,7 @@ newavg$Age = factor(c(newavg$Age),levels=c("345","2835","3105","3260", "28460", 
 countC = length(unique(newavg$family))
 
 #Graph the resulting table as a stacked bar graph colored by kingdom on a logarithmic scale
-png(filename =  "FamBarPlot.png", height = 7, width = 11, units = "in", res = 400)
+#png(filename =  "FamBarPlot.png", height = 7, width = 11, units = "in", res = 400)
 
 #dfinal$Group.1 <- factor(dfinal$Group.1, levels = unique(dfinal$Group.1[order(-as.numeric(as.character(dfinal$Age)))]))
 famplot = ggplot(data = newavg, aes(x = Age, y = count, fill = family)) + 
@@ -210,7 +210,7 @@ famplot = ggplot(data = newavg, aes(x = Age, y = count, fill = family)) +
   scale_fill_manual(values = colorRampPalette(brewer.pal(12, "Set3"))(countC), name = "Family") + 
   theme(axis.text=element_text(size=8), axis.title=element_text(size=10), legend.text=element_text(size=8))
 famplot
-dev.off()
+#dev.off()
 
 
 
