@@ -1,0 +1,46 @@
+#Header,,,,,,,,,
+#age,Base,,,28460,3260,31760,3105,2835,345
+#Chron1,Holmgren et al. (2011) ages,,,32721,3468,36092,3322,2934,398
+#Cron1 older age limit,,,,33312,3558,36721,3377,2991,478
+#Chron1 younger age limit,,,,32129,3413,35459,3266,2877,317
+,,,,,,,,,
+Code,Name,Family,Element,TS211F,PPC529,TS211A,PPC524,FRT511A,FRT504
+Pin.cn,Pinus contorta,Pinaceae,needle,,,,,,1
+Pin.fx,Pinus flexilis,Pinaceae,Needle,5,,,,5,1
+Pin.mn,Pinus monophylla,Pinaceae,needle,,,,,,3
+Pin.spp,Pinus spp,Pinaceae,Seed,2,1,,,,2
+PINA,Pinaceaea Other,Pinaceae,conescale,,,,,,1
+Jun.os,Juniperus osteospermum,Cupressaceae,Stem,,5,,5,,
+Jun.sc,Juniperus scopulorum,Cupressaceae,Stem,,,,3,5,5
+Jun.spp,Juniperus spp,Cupressaceae,"seed, aril, cone",,2,,3,2,2
+Amb.sp,Ambrosia spp,Asteraceae,Fruit,,1,,,,
+Art.tr,Artemisia tridentata,Asteraceae,leaf,2,,,2,,
+Art.spp,Artemisia spp,Asteraceae,Involucral bract,4.5,4.5,,5,2,2
+Brk.sp,Brickellia sp.,Asteraceae,"achene, involucral bract",,,,2,,
+Cys.vd,Chrysothamnus viscidiflorus,Asteraceae,Involucral bract,2,,,2,2,1
+Gut.spp,Gutierrezia spp.,Asteraceae,Involucral bract,,,,2,,
+Hel.spp/Vig.spp,Helianthus or Viguiera,Asteraceae,Achene,2,2,,,,
+ASTE,Asteraceae other,Asteraceae,allcats,2,2,,2,2,2
+ASTE,Asteraceae other,Asteraceae,"fibers,pappus",2,2,,2,2,2
+Brb.rp,Berberis repens,Berberidaceae,"seed, leaf",,,,,,1
+Ams.sp,Amsinckia sp,Boraginaceae,seed,,2,,,,
+Cry.spp,Cryptantha spp,Boraginaceae,"seed,fruit",1,2,,,,
+Lth.sp,Lithospermum,Boraginaceae,seed,1,2,,,,
+BORA,Boraginaceae other,Boraginaceae,"leaf,fruit,seed",,1,,1,,
+Opu.pc/pl,Opuntia phaeacantha/polycantha,Cactaceae,seed,,2,,,,
+CACT,Cactaceae other,Cactaceae,"spine,pad",,5,,5,5,5
+Sym.or,Symphoricarpos oreophilus,Caprifoliaceae,"seed,leaf",,2,,,2,
+Atx.spp,Atriplex spp,Amaranthaceae,"fruit,leaf",,,,,1,
+Chn.spp,Chenopodium spp,Amaranthaceae,seed,1,,,,,
+Ast.spp,Astragalus spp.,Fabaceae,"leaf, seed",,,,,1,
+Mel.spp,Melilotus/Lezpedeza,Fabaceae,seed,,1,,,,
+Rub.spp,Rubus spp,Rosaceae,macrobotanical,,2,,,,
+Acn.hy,Achnatherum hymenoides,Poaceae,seed,,2,,2,,
+Ely.ci,Elymus cinereus,Poaceae,floret,,,,,2,1
+POAC,Poaceae other,Poaceae,allcats,,,,,1,
+POAC,Poaceae other,Poaceae,floret,,1,,1,1,1
+Ply.spp,Polygonum spp,Polygonaceae,seed,,2,,,,2
+Crc.ld,Cercocarpus ledifolius,Rosaceae,"leaf, fruit, seed",,,,,5,2.5
+Pru.spp,Prunus,Rosaceae,seed,1,,,,,
+Ros.wd,Rosa woodsii,Rosaceae,"seed, leaf",,,,2,,2
+Phy.spp,Physalis spp.,Solanaceae,seed,,,,,,1
