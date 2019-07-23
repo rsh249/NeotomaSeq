@@ -84,7 +84,7 @@ famplot = ggplot(data = ttaxadf) +
     axis.text.x  = element_text(angle = 70, hjust=1),
     axis.title = element_text(size = 8),
     legend.text = element_text(size = 8)
-  ) + labs(x = "Site", y = "% Unique Streptophyta Reads", fill='Family') +
+  ) + labs(x = "Site", y = "% Unique Streptophyta Reads", fill='Plant Families') +
   facet_grid(~plotage, scales = 'free_x', space='free') + ylim(c(0,100))
 
 famplot

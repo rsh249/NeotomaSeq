@@ -1,4 +1,6 @@
-# read data for:
+# read data for macrofossils and aDNA
+root = "~/NeotomaSeq"
+files = list.files(root, recursive=T, full.names = T, pattern="*.ResultsAfter")
 
 # Macrofossils
 macro = read.table("./COR_macrofossils.csv", sep=',', header =T, stringsAsFactors = F)
@@ -7,26 +9,39 @@ colnames(macro) = macro[1,]
 macro=macro[-1,]
 head(macro)
 
-#compile families by site
+#compile taxa by site ##NOTE: Taxa are taken from the 'names' column where we keep only the first word. This is either Genus or Family
+#add family collectiono
 n=1
-genera = list()
+taxa = list()
+fams = list()
 sites = vector()
 for(i in 5:ncol(macro)){
   names = vector()
   for(z in macro$Name[which(macro[,i]>0)]){
     names = append(names, unique(strsplit(z, ' ')[[1]][1]))
   }
-  genera[[n]] = names
+  famvec = vector()
+  for(z in macro$Family[which(macro[,i]>0)]) {
+    famvec=append(famvec, unique(z));
+  }
+  taxa[[n]] = names
+  fams[[n]] = gsub('Amaranthaceae', replacement = 'Chenopodiaceae', x = famvec)
   sites[n] = colnames(macro)[i]
   n=n+1
 }
-print(genera)
+print(taxa)
 
 ## Read the aDNA genus files
-dnagenfiles = list.files('~/NeotomaSeq/results', recursive=TRUE, pattern='Taxa.ResultsAfter', full.names = T)
+dnagenfiles = files
 dnagenera = list()
 dnasites = vector()
+dnagencount = list()
+
 for(i in dnagenfiles){
+  print(i)
+  if(grepl('Pr', i)){next}
+  if(grepl('GC100', i)){next}
+  if(grepl('TS211A', i)){next}
   nom = strsplit(i, '/Taxa.ResultsAfter')[[1]][1]
   nom2 = strsplit(nom, '[/]')[[1]]
   name = nom2[length(nom2)]
@@ -35,68 +50,41 @@ for(i in dnagenfiles){
   dnasub = dnagen[dnagen$phylum == 'Streptophyta',]
   sumreads = sum(dnagen$numUniqueReads)
   aggr = aggregate(dnasub$numUniqueReads, by=list(dnasub$genus), FUN=sum )
-  subs = aggr[aggr$x>(0.001*sumreads),]
+  subs = aggr[aggr$x>(0.01*sumreads),]
   dnasites[name] = name
   dnagenera[[name]] = as.character(subs$Group.1)
+  dnagencount[[name]] = subs$x
 }
 
 ## Read the aDNA family files
-dnafamfiles = list.files('~/NeotomaSeq/results', recursive=TRUE, pattern='Taxa.ResultsAfter', full.names = T)
+dnafamfiles = files
 dnafamily = list()
 dnafamsites = vector()
+dnafamcount = list()
 for(i in dnafamfiles){
+  print(i)
+  if(grepl('Pr', i)){next}
+  if(grepl('GC100', i)){next}
+  if(grepl('TS211A', i)){next}
   nom = strsplit(i, '/Taxa.ResultsAfter')[[1]][1]
   nom2 = strsplit(nom, '[/]')[[1]]
   name = nom2[length(nom2)]
   dnafam = data.table::fread(i, sep = '\t')
   #get plant hits ONLY
   dnasub = dnafam[dnafam$phylum == 'Streptophyta',]
-  sumreads = sum(dnagen$numUniqueReads)
+  #sumreads = sum(dnasub$numUniqueReads)
   aggr = aggregate(dnasub$numUniqueReads, by=list(dnasub$family), FUN=sum )
-  subs = aggr[aggr$x>(0.001*sumreads),]
+  sumreads = sum(aggr$x)
+  subs = aggr[aggr$x>(0.01*sumreads),]
   dnafamsites[name] = name
   dnafamily[[name]] = as.character(subs$Group.1)
+  dnafamcount[[name]] = subs$x
 }
 
-#Amplicon sequencing (ITS2/rbcL)
-ampl = list.files('compiled_results/', full.names = T)
-ampl.nums = vector()
-ampl.barcode=vector()
-ampl.gen = list()
-for(a in ampl){
-  path = strsplit(a, '[/]')[[1]]
-  name = path[3]
-  nsplit = strsplit(name, '[_]')[[1]]
-  num=nsplit[3]
-  gene=strsplit(nsplit[4], '[-.]')[[1]][2]
-  hits = data.table::fread(a)
-  #print(hits)
-  print(gene)
-  firstgen=vector()
-  for(k in 1:nrow(hits)){
-    firsthit = strsplit(hits$names[k], '[;]')[[1]][1]
-    firstgen[k] = strsplit(firsthit, '[ ]')[[1]][1]
-  }
-  ampl.nums[name] = num
-  ampl.gen[[name]] = c(firstgen)
-  ampl.barcode[name] = gene
-}
-
-#Merge by sample into a single table
-nummap = list('PPC502-Un', 'TS211A-Un', 'FRT531-Un', 'FRT511A-Un', 'TS564-Un', 'GC100B-Un', 'Blank')
-names(nummap) = c('01', '05', '09', '13', '17', '21', '0N')
-ampl.sites = unlist(nummap[ampl.nums])
-# PPC502-Un = 01 **OLDEST SAMPLE @ 47500
-# TS211A-Un = 05
-# FRT531-Un = 09
-# FRT511A-Un = 13
-# TS564-Un = 17
-# GC100B-Un = 21
-# Blank = 0N
-
-allfoss=unique(unlist(genera))
+##FAMILY PLOTTING
+allfoss=unique(c(unlist(fams), unlist(dnafamily)))
 nr = length(allfoss)
-coll = matrix(nrow=nr, ncol = 18)
+coll = matrix(nrow=nr, ncol = 21)
 xx = 1
 columns = vector()
 for(nn in 1:length(dnasites)){
@@ -106,31 +94,127 @@ for(nn in 1:length(dnasites)){
   r = grep(presite, sites)
   if(length(r)==0){next}
   columns[[xx]] = paste(sites[[r]], '.foss', sep='')
-  coll[which(allfoss %in% genera[[r]]),xx] = 1
   
+  coll[which(allfoss %in% fams[[r]]),xx] = 1
+  
+  xx = xx + 1
   
   columns[[xx]] = paste(dnasites[[nn]], '.dnagen', sep ='')
-  coll[which(allfoss %in% dnafamily[[nn]]),] = 1
-  xx=xx+1
-  
-  
-  s=grep(presite,ampl.sites)
-  #merge gene and site name to amplicon identifier
-  paste(ampl.barcode[s], sep = '_')
-  columns[[xx]] = amplicon.id
-  #add amplicon hits to table
-  coll[which(allfoss %in% ampl.gen[s]),]=1
-  #add amplicon family hits to table
-  #taxonomizr
-  #sub.fams = translate.genus.to.family
-  coll[which(allfoss %in% sub.fams),]=1
-  
-  
+  coll[which(allfoss %in% dnafamily[[nn]]),xx] = dnafamcount[[nn]]/max(dnafamcount[[nn]])
+  xx= xx + 1
 }
 
-
+coll= as.data.frame(coll)
+colnames(coll) = columns
+print(coll)
+coll = cbind(allfoss, coll)
 #plot using pheatmap or ggplot2 tile
+library(ggplot2)
+library(plyr)
+library(scales)
+library(tidyr)
+library(dplyr)
+coll.m <- melt(coll)
+
+coll.m = coll.m %>% 
+  separate(variable, c('site'), sep = '[-.]', remove = F, extra='drop') %>% 
+  filter(!grepl("Pr", variable)) %>% filter(!is.na(site))
+
+(macrofam <- ggplot(coll.m, aes(variable, allfoss)) + 
+    geom_tile(aes(fill = value), colour = "black") +
+    scale_fill_gradient2(low = "white", mid = muted("blue"),
+                         high = "navyblue", midpoint = 0.4, space = "Lab",
+                         na.value = "grey95", guide = "colourbar", aesthetics = "fill") +
+    #scale_fill_gradient(low = "purple", high = "navyblue", na.value = 'white') +
+    facet_grid(~site, scales = 'free_x', space='free') +
+    theme_linedraw() + 
+    xlab('') + ylab('') +
+    labs(fill='Rel. Abundance') +
+    theme(
+      axis.text = element_text(size = 6),
+      axis.text.x  = element_text(angle = 45, size =6, hjust=1),
+      axis.text.y  = element_text(angle = 45, size =6, hjust=1),
+      axis.title = element_text(size = 6),
+      legend.text = element_text(size = 6),
+      legend.position="top"
+    ))
 
 
+png(filename = 'macrofam.png', height = 7.5, width = 5.75, units = 'in', res=400)
+macrofam
+dev.off()
+
+
+
+
+
+##GENUS PLOTTING
+allfoss=unique(c(unlist(taxa), unlist(dnagenera)))
+allfoss = allfoss[grep('aceae', allfoss, invert=TRUE)]
+nr = length(allfoss)
+coll = matrix(nrow=nr, ncol = 21)
+xx = 1
+columns = vector()
+for(nn in 1:length(dnasites)){
+  q=dnasites[[nn]]
+  
+  presite = strsplit(q, '[-]')[[1]][1]
+  r = grep(presite, sites)
+  if(length(r)==0){next}
+  columns[[xx]] = paste(sites[[r]], '.foss', sep='')
+  
+  coll[which(allfoss %in% taxa[[r]]),xx] = 1
+  
+  xx = xx + 1
+  
+  columns[[xx]] = paste(dnasites[[nn]], '.dnagen', sep ='')
+  coll[which(allfoss %in% dnagenera[[nn]]),xx] = dnagencount[[nn]]/max(dnagencount[[nn]])
+  xx= xx + 1
+}
+
+coll= as.data.frame(coll)
+colnames(coll) = columns
+print(coll)
+coll = cbind(allfoss, coll)
+#plot using ggplot2 tile
+library(ggplot2)
+library(plyr)
+library(scales)
+library(tidyr)
+library(dplyr)
+coll.m <- melt(coll)
+
+coll.m = coll.m %>% 
+  separate(variable, c('site'), sep = '[-.]', remove = F, extra='drop') %>% 
+  filter(!grepl("Pr", variable)) %>% filter(!is.na(site))
+
+(macrogen <- ggplot(coll.m, aes(variable, allfoss)) + 
+    geom_tile(aes(fill = value), colour = "black") +
+    scale_fill_gradient2(low = "white", mid = muted("blue"),
+                         high = "navyblue", midpoint = 0.4, space = "Lab",
+                         na.value = "grey95", guide = "colourbar", aesthetics = "fill") +
+    #scale_fill_gradient(low = "purple", high = "navyblue", na.value = 'white') +
+    facet_grid(~site, scales = 'free_x', space='free') +
+    xlab('') + ylab('') +
+    labs(fill='Rel. Abundance') +
+    theme_linedraw() + 
+    theme(
+      axis.text = element_text(size = 6),
+      axis.text.x  = element_text(angle = 45, size =6, hjust=1),
+      axis.text.y  = element_text(angle = 45, size =6, hjust=1),
+      axis.title = element_text(size = 6),
+      legend.text = element_text(size = 6),
+      legend.position="top"
+    ))
+
+
+png(filename = 'macrogen.png', height = 7.5, width = 5.75, units = 'in', res=400)
+macrogen
+dev.off()
+
+
+library(ggpubr)
+gsa = ggarrange(macrofam, macrogen, ncol=2, nrow=1, labels="AUTO")
+ggsave(filename='macrocomp.png', plot=gsa, device=NULL, width = 9.25, heigh=6.5, dpi=500)
 
 

@@ -4,6 +4,7 @@
 
 #Load libraries
 library(ggplot2)
+library(ggsci)
 library(dplyr)
 library(data.table)
 library(reshape2)
@@ -43,7 +44,7 @@ for(i in 1:length(taxa)){
   if(match_name == "GC100B"){next} #Make another figure to compare MX and US sites
   
   #grep name against full_table to get age data
-  age = unique(full_table[grep(name, full_table$Name), 'Midden.age'])
+  age = unique(full_table[grep(match_name, full_table$Name), 'Midden.age'])
   
   #Add up the number of unique reads by classification
   df <- aggregate(cbind(count = numUniqueReads) ~ Group.1, 

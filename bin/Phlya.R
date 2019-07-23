@@ -18,6 +18,7 @@ eutaxadf = data.frame(family = character(),
                       Extraction = character(),
                       Age = numeric(),
                       stringsAsFactors=FALSE)
+name = ''
 for(i in files){
   #parse name
   lastname=name
