@@ -1,16 +1,12 @@
-#!/usr/bin/bash
+#!/bin/bash
 scriptname=$0
 bname=$1
 
 sga preprocess --dust -m 30 $bname.collapsed -o $bname.dust
 
-sga index --algorithm=ropebwt --threads=32 $bname.dust
+sga index --algorithm=ropebwt --threads=4 $bname.dust
 
-sga filter --threads=32  --no-kmer-check $bname.dust -o $bname.dust.rmdup.fq
-
-#sga overlap -m 10 -t 32 $bname.dust.rmdup.fq
-
-#sga assemble -m 10 -g 0 -r 10 -o assemble_$bname $bname.dust.rmdup.asqg.gz
+sga filter --threads=4  --no-kmer-check $bname.dust -o $bname.dust.rmdup.fq
 
 rm $bname.dust.rmdup.bwt
 rm $bname.dust.rmdup.rbwt

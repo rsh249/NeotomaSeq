@@ -1,0 +1,17 @@
+#!/bin/bash
+home=~/NeotomaSeq
+cd $home
+
+targs=$(ls fastq | awk -F "_" '{print $1}' | uniq)
+
+centdb=/usr/share/data/centrifuge/centref
+reffa=/usr/share/data/ncbi/nt/nt
+taxonomy=$home/taxonomy #BE SURE TO RUN taxonomizr_build.R FIRST
+
+IFS=' ' read -r -a array <<< $targs
+
+#./bin/NeotomaSeq.sh $centdb $reffa ${array[$PBS_ARRAY_INDEX-1]} $taxonomy
+
+#To run samples in parallel using up to 16 cores
+ls fastq | awk -F "_" '{print $1}' | uniq | parallel -j 4 ./bin/NeotomaSeq.sh $centdb $reffa {} $taxonomy
+

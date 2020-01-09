@@ -1,0 +1,12 @@
+#!/bin/bash
+home=~/NeotomaSeq
+cd $home
+
+targs=$(ls fastq | awk -F "_" '{print $1}' | uniq)
+
+centdb=/usr/share/data/centrifuge/centref
+reffa=/usr/share/data/ncbi/nt/nt
+taxonomy=$home/taxonomy #BE SURE TO RUN taxonomizr_build.R FIRST
+
+./bin/NeotomaSeq.sh $centdb $reffa PPC529-UnB $taxonomy
+
