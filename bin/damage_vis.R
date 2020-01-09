@@ -107,7 +107,7 @@ options(scipen=999, digits=1) #shut off scientific notation
       axis.text.y  = element_text(angle = 70, hjust=1),
       axis.title = element_text(size = 8),
       legend.text = element_text(size = 8),
-      strip.text = element_text(size=5),
+      strip.text = element_text(size=6),
       panel.grid.major = element_blank(), 
       panel.grid.minor = element_blank()
     )
@@ -133,14 +133,19 @@ options(scipen=999, digits=1) #shut off scientific notation
     axis.text.x  = element_text(angle = 70, hjust=1),
     axis.title = element_text(size = 8),
     legend.text = element_text(size = 8),
-    strip.text = element_text(size=5),
+    strip.text = element_text(size=6),
     panel.grid.major = element_blank(), 
     panel.grid.minor = element_blank()
   )
   )
 
 gsa = ggarrange(plot_plast, plot_readlength, ncol=1, nrow=2, labels="AUTO")
-ggsave(filename='damage_fig.png', plot=gsa, device=NULL, width = 7.25, height=6, dpi=500)
+ggsave(filename='damage_fig.png', 
+       plot=gsa, 
+       device=NULL, 
+       width = 7.25, 
+       height=3.75, 
+       dpi=600)
 
 
 
