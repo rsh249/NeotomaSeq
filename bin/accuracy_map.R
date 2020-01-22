@@ -131,7 +131,8 @@ prec = ggplot() +
     axis.text = element_text(size = 8),
     axis.text.x  = element_text(angle = 45, size = 0, hjust =1),
     axis.title = element_text(size = 8),
-    legend.text = element_text(size = 8)
+    legend.text = element_text(size = 8),
+    strip.text = element_text(size=7)
   )
 
 
@@ -140,12 +141,13 @@ sens = ggplot() +
   facet_grid(~columns) + scale_x_log10() + 
   theme_linedraw() + 
   ylab('Sensitivity') + 
-  xlab('') + 
+  xlab('% of plant reads as threshold') + 
   theme(
     axis.text = element_text(size = 8),
     axis.text.x  = element_text(angle = 45, size = 8, hjust =1),
     axis.title = element_text(size = 8),
-    legend.text = element_text(size = 8)
+    legend.text = element_text(size = 8),
+    strip.text = element_text(size=7)
   )
 
 
@@ -159,7 +161,8 @@ FDR = ggplot() +
     axis.text = element_text(size = 8),
     axis.text.x  = element_text(angle = 45, size = 8, hjust =1),
     axis.title = element_text(size = 8),
-    legend.text = element_text(size = 8)
+    legend.text = element_text(size = 8),
+    strip.text = element_text(size=7)
   )
 FDR
 options(scipen=999, digits=1) #shut off scientific notation
@@ -167,3 +170,4 @@ options(scipen=999, digits=1) #shut off scientific notation
 library(ggpubr)
 gsa = ggarrange(prec, sens, ncol=1, nrow=2, labels="AUTO")
 ggsave(filename='accuracy_figure.png', plot=gsa, device=NULL, width = 9.25, height=4.5, dpi=500)
+ggsave(filename='accuracy_figure.pdf', plot=gsa, device=NULL, width = 9.25, height=4.5, dpi=600)

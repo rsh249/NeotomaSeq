@@ -27,7 +27,7 @@ op.data$Site = stringr::word(op.data$Midden.loc, 1, 2) %>%
   coord_flip() +
   geom_text(data = op.data, aes(label=Midden.age), angle=0, vjust=0.5, hjust=0, size=2) +
   theme(axis.text.x = element_text(angle=45,hjust=1, size=6), 
-        axis.text.y = element_text(angle = 45, size =4, hjust=1),
+        axis.text.y = element_text(angle = 45, size =6, hjust=1),
         legend.text=element_text(size=6), 
         legend.title=element_text(size=8),
         axis.title=element_text(size=8),
@@ -39,6 +39,6 @@ op.data$Site = stringr::word(op.data$Midden.loc, 1, 2) %>%
   ylab(bquote("aDNA Concentration" ~ (ng/mu*L)))
 )
 
-ggsave(filename = "ConcPlot.png", plot=concfig, device=NULL, height = 7.25, width = 5.25, dpi = 500)
+ggsave(filename = "ConcPlot.pdf", plot=concfig, device=NULL, height = 9.25, width = 4.5, dpi = 500)
 
 

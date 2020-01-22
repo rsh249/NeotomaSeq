@@ -1,6 +1,5 @@
 #!/usr/bin/env Rscript
 args <- commandArgs(trailingOnly=TRUE)
-
 library(parallel)
 library(CHNOSZ)
 library(ggplot2)
@@ -8,9 +7,9 @@ library(dplyr)
 library(taxonomizr)
 #getNamesAndNodes()
 
-nclus = 16
-taxaNodes<-read.nodes('/home/gmoore/nas3/packrats/bin/taxdump/nodes.dmp') #takes time?
-taxaNames<-read.names('/home/gmoore/nas3/packrats/bin/taxdump/names.dmp')
+nclus = 4
+taxaNodes<-read.nodes.sql(paste(args[[2]], '/nodes.dmp', sep = '')) #takes time?
+taxaNames<-read.names.sql(paste(args[[2]], '/names.dmp', sep = '')) 
 
 #Table -> taxID and numreads
 taxdump = args[2]

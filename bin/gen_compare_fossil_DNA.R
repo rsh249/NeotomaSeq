@@ -132,8 +132,8 @@ coll.m = coll.m %>%
     labs(fill='Rel. Abundance') +
     theme(
       axis.text = element_text(size = 6),
-      axis.text.x  = element_text(angle = 45, size =6, hjust=1),
-      axis.text.y  = element_text(angle = 45, size =6, hjust=1),
+      axis.text.x  = element_text(angle = 45, size =8, hjust=1),
+      axis.text.y  = element_text(angle = 45, size =8, hjust=1),
       axis.title = element_text(size = 6),
       legend.text = element_text(size = 6),
       legend.position="top"
@@ -200,8 +200,8 @@ coll.m = coll.m %>%
     theme_linedraw() + 
     theme(
       axis.text = element_text(size = 6),
-      axis.text.x  = element_text(angle = 45, size =6, hjust=1),
-      axis.text.y  = element_text(angle = 45, size =6, hjust=1),
+      axis.text.x  = element_text(angle = 45, size =8, hjust=1),
+      axis.text.y  = element_text(angle = 45, size =8, hjust=1),
       axis.title = element_text(size = 6),
       legend.text = element_text(size = 6),
       legend.position="top"
@@ -215,6 +215,7 @@ dev.off()
 
 library(ggpubr)
 gsa = ggarrange(macrofam, macrogen, ncol=2, nrow=1, labels="AUTO")
+ggsave(filename='macrocomp.pdf', plot=gsa, device=NULL, width = 9.25, heigh=6.5, dpi=600)
 ggsave(filename='macrocomp.png', plot=gsa, device=NULL, width = 9.25, heigh=6.5, dpi=500)
 
 

@@ -7,9 +7,9 @@ source("./Families.R")
 source("./gen_compare_fossil_DNA.R")
 source('./accuracy_map.R')
 
-png(filename =  "GridPlot.png", height = 11, width = 8, units = "in", res = 400)
-grid.arrange(BEplot, AVVplot, phylaplot, famplot, nrow = 4, heights=c(1,1,1,1.5))
-dev.off()
+# png(filename =  "GridPlot.eps", height = 11, width = 8, units = "in", res = 400)
+# grid.arrange(BEplot, AVVplot, phylaplot, famplot, nrow = 4, heights=c(1,1,1,1.5))
+# dev.off()
 
 
 
@@ -27,3 +27,12 @@ library(cowplot)
 png(filename = 'GridPlot3.png', height = 9.5, width = 5.75, units = 'in', res=400)
 plot_grid(pp1, pp2, pp3, pp4, ncol=1, align = 'v', rel_heights=c(0.85,0.85,1.3,1.45), labels="AUTO")
 dev.off()
+
+png(filename = 'GridPlot3.tiff', height = 9.5, width = 5.75, units = 'in', res=400)
+plot_grid(pp1, pp2, pp3, pp4, ncol=1, align = 'v', rel_heights=c(0.85,0.85,1.3,1.45), labels="AUTO")
+dev.off()
+
+
+cowplot3 = plot_grid(pp1, pp2, pp3, pp4, ncol=1, align = 'v', rel_heights=c(0.85,0.85,1.3,1.45), labels="AUTO")
+
+ggsave(cowplot3, file='GridPlot3.pdf', height=9.5, width=5.75, units='in', dpi=600)

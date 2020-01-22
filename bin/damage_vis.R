@@ -80,8 +80,9 @@ for (i in 1:length(samples)) {
 
   readl = vroom(paste(s, '/read_length.txt', sep=''), col_types = 'n', num_threads=2, col_names=F)
   readl = readl %>% 
-    mutate(a = cut(X1, breaks =seq(0,250,10), labels=seq(10,250,10))) %>% 
-    group_by(a) %>% summarize(count=n())
+    dplyr::mutate(a = cut(X1, breaks =seq(0,250,10), labels=seq(10,250,10))) %>% 
+    dplyr::group_by(a) %>% dplyr::summarize(count=dplyr::n())
+  
   
   readl = cbind(rep(nt, nrow(readl)), rep(age, nrow(readl)), readl)
   names(readl) = c('name', 'age', 'readlength', 'count')
@@ -140,6 +141,12 @@ options(scipen=999, digits=1) #shut off scientific notation
   )
 
 gsa = ggarrange(plot_plast, plot_readlength, ncol=1, nrow=2, labels="AUTO")
+ggsave(filename='damage_fig.pdf', 
+       plot=gsa, 
+       device=NULL, 
+       width = 7.25, 
+       height=3.75, 
+       dpi=600)
 ggsave(filename='damage_fig.png', 
        plot=gsa, 
        device=NULL, 
